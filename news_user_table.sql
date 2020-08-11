@@ -6,5 +6,9 @@ CREATE TABLE news_user(
 	role_id INT UNSIGNED NOT NULL,
 	INDEX(username)
 );
+
 INSERT INTO news_user(username, password, email, role_id)
 VALUE("Admin",HEX(AES_ENCRYPT("123456","HelloWorld")), "admin@gmail.com", 1);
+
+INSERT INTO news_user(username, password, email, role_id)
+VALUE("Will",HEX(AES_ENCRYPT("123456","HelloWorld")), "will@gmail.com", 2);
