@@ -1,0 +1,5 @@
+CREATE TABLE user_role(
+	id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	role VARCHAR(20) NOT NULL UNIQUE
+)
+INSERT INTO user_role(role) VALUE("Admin"),("Editor");
