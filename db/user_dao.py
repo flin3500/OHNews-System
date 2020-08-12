@@ -46,3 +46,44 @@ class UserDao:
         finally:
             cursor.close()
             conn.close()
+
+
+    def search_count_page(self):
+        """
+        Show how many pages users needs to show in page
+        :return: show pages number
+        """
+        try:
+            conn = pool.connection()
+            cursor = conn.cursor()
+            sql = "SELECT CEIL(COUNT(*)/5) FROM news_user;"
+            cursor.execute(sql)
+            count_page = cursor.fetchone()[0]
+            cursor.close()
+            conn.close()
+            return count_page
+        except Exception as e:
+            print(e)
+
+
+    def search_list(self, page):
+        """
+        Show all the users in the specified pages
+        :param page: which page (int)
+        :return: all users in the specified pages
+        """
+        try:
+            conn = pool.connection()
+            cursor = conn.cursor()
+            sql = "SELECT u.id, u.username,r.role " \
+                  "FROM news_user u JOIN user_role r" \
+                  "ON u.role_id=r.id " \
+                  "ORDER BY u.id" \
+                  "LIMIT %s,%s"
+            cursor.execute(sql, ((page - 1) * 5, 5))
+            result = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return result
+        except Exception as e:
+            print(e)
