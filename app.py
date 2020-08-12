@@ -132,9 +132,82 @@ while True:
                                 print("\n\tAdd successfully (Wait 1s)")
                                 time.sleep(1)
                             elif opt == "2":
-                                pass
+                                page = 1
+                                while True:
+                                    os.system("clear")
+                                    count_page = __user_service.search_count_page()
+                                    result = __user_service.search_list(page)
+                                    for index in range(len(result)):
+                                        user = result[index]
+                                        print(Fore.LIGHTBLUE_EX,
+                                              "\n\t%d\t%s\t%s" % (index + 1, user[1], user[2]))
+                                    print(Fore.LIGHTBLUE_EX, "\n\t-------------------------")
+                                    print(Fore.LIGHTBLUE_EX, "\n\t%d/%d" % (page, count_page))
+                                    print(Fore.LIGHTBLUE_EX, "\n\t-------------------------")
+                                    print(Fore.LIGHTRED_EX, "\n\tprev. Prev page")
+                                    print(Fore.LIGHTRED_EX, "\n\tnext. Next page")
+                                    print(Fore.LIGHTRED_EX, "\n\tback. Back")
+                                    print(Style.RESET_ALL)
+                                    opt = input("\n\tInput the number: ")
+                                    if opt == "prev" and page > 1:
+                                        page -= 1
+                                    elif opt == "next" and page < count_page:
+                                        page += 1
+                                    elif opt == "back":
+                                        break
+                                    elif 1 <= int(opt) <= 5:
+                                        os.system("clear")
+                                        user_id = result[int(opt)-1][0]
+                                        username = input("\n\tNew username: ")
+                                        password = getpass("\n\tNew password: ")
+                                        repassword = getpass("\n\tRetype password: ")
+                                        if password != repassword:
+                                            print("\n\tPassword not match (Wait 1s)")
+                                            time.sleep(1)
+                                            continue
+                                        email = input("\n\tEmail: ")
+                                        result = __role_service.search_list()
+                                        for index in range(len(result)):
+                                            role = result[index]
+                                            print(Fore.LIGHTBLUE_EX, "\n\t%d.%s" % (index + 1, role[1]))
+                                        print(Style.RESET_ALL)
+                                        opt = input("\n\tInput the role number: ")
+                                        role_id = result[int(opt) - 1][0]
+                                        opt = input("\n\tConfirm save(y/n)")
+                                        if opt == "Y" or opt == "y":
+                                            __user_service.update_user(user_id, username, password, email, role_id)
+                                            print("\n\tUpdate successfully (Wait 1s)")
+                                            time.sleep(1)
                             elif opt == "3":
-                                pass
+                                page = 1
+                                while True:
+                                    os.system("clear")
+                                    count_page = __user_service.search_count_page()
+                                    result = __user_service.search_list(page)
+                                    for index in range(len(result)):
+                                        user = result[index]
+                                        print(Fore.LIGHTBLUE_EX,
+                                              "\n\t%d\t%s\t%s" % (index + 1, user[1], user[2]))
+                                    print(Fore.LIGHTBLUE_EX, "\n\t-------------------------")
+                                    print(Fore.LIGHTBLUE_EX, "\n\t%d/%d" % (page, count_page))
+                                    print(Fore.LIGHTBLUE_EX, "\n\t-------------------------")
+                                    print(Fore.LIGHTRED_EX, "\n\tprev. Prev page")
+                                    print(Fore.LIGHTRED_EX, "\n\tnext. Next page")
+                                    print(Fore.LIGHTRED_EX, "\n\tback. Back")
+                                    print(Style.RESET_ALL)
+                                    opt = input("\n\tInput the number: ")
+                                    if opt == "prev" and page > 1:
+                                        page -= 1
+                                    elif opt == "next" and page < count_page:
+                                        page += 1
+                                    elif opt == "back":
+                                        break
+                                    elif 1 <= int(opt) <= 5:
+                                        os.system("clear")
+                                        user_id = result[int(opt) - 1][0]
+                                        __user_service.delete_user(user_id)
+                                        print("\n\tDelete successfully (Wait 1s)")
+                                        time.sleep(1)
                             elif opt == "4":
                                 break
                     elif opt == "3":

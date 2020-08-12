@@ -76,9 +76,9 @@ class UserDao:
             conn = pool.connection()
             cursor = conn.cursor()
             sql = "SELECT u.id, u.username,r.role " \
-                  "FROM news_user u JOIN user_role r" \
+                  "FROM news_user u JOIN user_role r " \
                   "ON u.role_id=r.id " \
-                  "ORDER BY u.id" \
+                  "ORDER BY u.id " \
                   "LIMIT %s,%s"
             cursor.execute(sql, ((page - 1) * 5, 5))
             result = cursor.fetchall()
@@ -87,3 +87,55 @@ class UserDao:
             return result
         except Exception as e:
             print(e)
+
+    def update_user(self, id, username, password, email, role_id):
+        """
+        Update user information
+        :param id: which user
+        :param username: new username
+        :param password: new password
+        :param email: new email
+        :param role_id: new role_id
+        :return: None
+        """
+        try:
+            conn = pool.connection()
+            cursor = conn.cursor()
+            sql = "UPDATE news_user SET " \
+                  "username=%s, " \
+                  "password=HEX(AES_ENCRYPT(%s, 'HelloWorld')), " \
+                  "email=%s, " \
+                  "role_id=%s " \
+                  "WHERE id=%s;"
+            cursor.execute(sql, (username, password, email, role_id, id))
+        except Exception as e:
+            conn.rollback()
+            print(e)
+        else:
+            conn.commit()
+        finally:
+            cursor.close()
+            conn.close()
+
+
+    def delete_user(self, id):
+        """
+        Delete user
+        :param id: which user
+        :return: None
+        """
+        try:
+            conn = pool.connection()
+            cursor = conn.cursor()
+            sql = "DELETE FROM news_user WHERE id=%s;"
+            cursor.execute(sql, (id,))
+        except Exception as e:
+            conn.rollback()
+            print(e)
+        else:
+            conn.commit()
+        finally:
+            cursor.close()
+            conn.close()
+
+

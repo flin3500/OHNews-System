@@ -22,3 +22,11 @@ class UserService:
     def search_list(self, page):
         result = self.__user_dao.search_list(page)
         return result
+
+    def update_user(self, id, username, password, email, role_id):
+        self.__user_dao.update_user(id, username, password, email, role_id)
+
+    def delete_user(self, id):
+        self.__user_dao.delete_user(id)
+
+
