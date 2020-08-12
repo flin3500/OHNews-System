@@ -30,3 +30,19 @@ class UserDao:
 
         except Exception as e:
             print(e)
+
+    def add_user(self, username, password, email, role_id):
+        try:
+            conn = pool.connection()
+            cursor = conn.cursor()
+            sql = "INSERT INTO news_user(username, password, email, role_id) " \
+                  "VALUES(%s,HEX(AES_ENCRYPT(%s, 'HelloWorld')),%s,%s);"
+            cursor.execute(sql, (username, password, email, role_id))
+        except Exception as e:
+            conn.rollback()
+            print(e)
+        else:
+            conn.commit()
+        finally:
+            cursor.close()
+            conn.close()
