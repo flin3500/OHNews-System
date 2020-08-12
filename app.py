@@ -1,11 +1,13 @@
 from colorama import Fore, Style
 from getpass import getpass
 from service.user_service import UserService
+from service.news_service import NewsService
 import os
 import sys
 import time
 
 __user_service = UserService()
+__news_service = NewsService()
 
 while True:
     os.system("clear")
@@ -18,7 +20,7 @@ while True:
     opt = input("\n\tInput the number: ")
     if opt == "1":
         username = input("\n\tUsername: ")
-        password = input("\n\tPassword: ")
+        password = getpass("\n\tPassword: ")
         result = __user_service.login(username, password)
         # successfully log in
         if result:
@@ -36,7 +38,38 @@ while True:
                     print(Style.RESET_ALL)
                     opt = input("\n\tInput the number: ")
                     if opt == "1":
-                        pass
+                        while True:
+                            os.system("clear")
+                            print(Fore.LIGHTGREEN_EX, "\n\t1. Review news")
+                            print(Fore.LIGHTGREEN_EX, "\n\t2. Delete news")
+                            print(Fore.LIGHTRED_EX, "\n\t3. Back to account")
+                            print(Style.RESET_ALL)
+                            opt = input("\n\tInput the number: ")
+                            if opt == "1":
+                                page = 1
+                                while True:
+                                    os.system("clear")
+                                    count_page = __news_service.search_unreview_count_page()
+                                    result = __news_service.search_unreview_list(page)
+                                    for index in range(len(result)):
+                                        news = result[index]
+                                        print(Fore.LIGHTBLUE_EX, "\n\t%d\t%s\t%s\t%s" % (index+1, news[1], news[2],news[3]))
+                                    print(Fore.LIGHTBLUE_EX, "\n\t-------------------------")
+                                    print(Fore.LIGHTBLUE_EX, "\n\t%d/%d" % (page, count_page))
+                                    print(Fore.LIGHTBLUE_EX, "\n\t-------------------------")
+                                    print(Fore.LIGHTRED_EX, "\n\tprev. Prev page")
+                                    print(Fore.LIGHTRED_EX, "\n\tnext. Next page")
+                                    print(Fore.LIGHTRED_EX, "\n\tback. Back")
+                                    print(Style.RESET_ALL)
+                                    opt = input("\n\tInput the number: ")
+                                    if opt == "prev" and page > 1:
+                                        page -= 1
+                                    elif opt == "next" and page < count_page:
+                                        page += 1
+                                    elif opt == "back":
+                                        break
+                                    elif 1 <= int(opt) <= 5:
+                                        __news_service.review_news()
                     elif opt == "2":
                         pass
                     elif opt == "3":

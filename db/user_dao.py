@@ -1,10 +1,10 @@
-import db.mysql_db
+from db.mysql_db import pool
 
 
 class UserDao:
     def login(self, username, password):
         try:
-            conn = db.mysql_db.pool.get_connection()
+            conn = pool.connection()
             cursor = conn.cursor()
             sql = "SELECT COUNT(*) FROM news_user WHERE username=%s AND " \
                   "AES_DECRYPT(UNHEX(password), 'HelloWorld')=%s;"
@@ -18,7 +18,7 @@ class UserDao:
 
     def search_role(self, username):
         try:
-            conn = db.mysql_db.pool.get_connection()
+            conn = pool.connection()
             cursor = conn.cursor()
             sql = "SELECT r.role FROM news_user as u JOIN user_role as r ON " \
                   "u.role_id=r.id where u.username=%s;"

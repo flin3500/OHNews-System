@@ -101,5 +101,9 @@ This is OHNews System written in python, and use Mysql, MongoDB, Redis as databa
 
       7. Now it is ok
 
-2. Jhkjhnjk
+2. Sqlmode
+
+3. xxaSA
+
+4. Asdad
 
