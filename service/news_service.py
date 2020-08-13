@@ -25,3 +25,6 @@ class NewsService:
 
     def delete_news(self, id):
         self.__news_dao.delete_news(id)
+
+    def add_news(self, title, editor_id, type_id, content_id, if_top):
+        self.__news_dao.add_news(title, editor_id, type_id, content_id, if_top)

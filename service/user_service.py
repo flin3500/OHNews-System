@@ -29,4 +29,6 @@ class UserService:
     def delete_user(self, id):
         self.__user_dao.delete_user(id)
 
-
+    def search_userid(self, username):
+        user_id = self.__user_dao.search_userid(username)
+        return user_id

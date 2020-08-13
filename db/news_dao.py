@@ -93,3 +93,20 @@ class NewsDao:
         finally:
             cursor.close()
             conn.close()
+
+    def add_news(self, title, editor_id, type_id, content_id, if_top):
+        try:
+            conn = pool.connection()
+            cursor = conn.cursor()
+            sql = "INSERT INTO news(title,editor_id,type_id,content_id,if_top,status) " \
+                  "VALUES(%s,%s,%s,%s,%s,%s);"
+            cursor.execute(sql, (title, editor_id, type_id, content_id, if_top, "Reviewing"))
+        except Exception as e:
+            conn.rollback()
+            print(e)
+        else:
+            conn.commit()
+        finally:
+            cursor.close()
+            conn.close()
+

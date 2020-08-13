@@ -138,4 +138,17 @@ class UserDao:
             cursor.close()
             conn.close()
 
+    def search_userid(self, username):
+        try:
+            conn = pool.connection()
+            cursor = conn.cursor()
+            sql = "SELECT id From news_user WHERE username=%s;"
+            cursor.execute(sql, (username,))
+            user_id = cursor.fetchone()[0]
+            cursor.close()
+            conn.close()
+            return user_id
+        except Exception as e:
+            print(e)
+
 

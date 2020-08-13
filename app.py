@@ -3,6 +3,7 @@ from getpass import getpass
 from service.user_service import UserService
 from service.news_service import NewsService
 from service.role_service import RoleService
+from service.type_service import TypeService
 import os
 import sys
 import time
@@ -10,6 +11,7 @@ import time
 __user_service = UserService()
 __news_service = NewsService()
 __role_service = RoleService()
+__type_service = TypeService()
 
 while True:
     os.system("clear")
@@ -31,7 +33,30 @@ while True:
             while True:
                 os.system("clear")
                 if role == "Editor":
-                    pass
+                    print(Fore.LIGHTGREEN_EX, "\n\t1. Post news")
+                    print(Fore.LIGHTGREEN_EX, "\n\t2. Edit news")
+                    print(Fore.LIGHTRED_EX, "\n\t3. Log out")
+                    print(Fore.LIGHTRED_EX, "\n\t4. Exit system")
+                    print(Style.RESET_ALL)
+                    opt = input("\n\tInput the number: ")
+                    if opt == "1":
+                        os.system("clear")
+                        title = input("\n\tTitle: ")
+                        editor_id = __user_service.search_userid(username)
+                        result = __type_service.search_list()
+                        for index in range(len(result)):
+                            type = result[index]
+                            print(Fore.LIGHTBLUE_EX, "\n\t%d.%s" % (index + 1, type[1]))
+                        print(Style.RESET_ALL)
+                        opt = input("\n\tInput the type number: ")
+                        type_id = result[int(opt) - 1][0]
+                        content_id = 100
+                        if_top = input("\n\tTop level(0-5): ")
+                        is_commit = input("\n\tCommit? (y/n): ")
+                        if is_commit == "Y" or is_commit == "y":
+                            __news_service.add_news(title, editor_id, type_id, content_id, if_top)
+                            print("\n\tAdd Successfully (Wait 1s)")
+                            time.sleep(1)
                 elif role == "Admin":
                     print(Fore.LIGHTGREEN_EX, "\n\t1. Manage news")
                     print(Fore.LIGHTGREEN_EX, "\n\t2. Manage users")
