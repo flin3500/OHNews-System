@@ -57,6 +57,58 @@ while True:
                             __news_service.add_news(title, editor_id, type_id, content_id, if_top)
                             print("\n\tAdd Successfully (Wait 1s)")
                             time.sleep(1)
+                    elif opt == "2":
+                        page = 1
+                        while True:
+                            os.system("clear")
+                            count_page = __news_service.search_count_page()
+                            result = __news_service.search_list(page)
+                            for index in range(len(result)):
+                                news = result[index]
+                                print(Fore.LIGHTBLUE_EX,
+                                      "\n\t%d\t%s\t%s\t%s" % (index + 1, news[1], news[2], news[3]))
+                            print(Fore.LIGHTBLUE_EX, "\n\t-------------------------")
+                            print(Fore.LIGHTBLUE_EX, "\n\t%d/%d" % (page, count_page))
+                            print(Fore.LIGHTBLUE_EX, "\n\t-------------------------")
+                            print(Fore.LIGHTRED_EX, "\n\tprev. Prev page")
+                            print(Fore.LIGHTRED_EX, "\n\tnext. Next page")
+                            print(Fore.LIGHTRED_EX, "\n\tback. Back")
+                            print(Style.RESET_ALL)
+                            opt = input("\n\tInput the number: ")
+                            if opt == "prev" and page > 1:
+                                page -= 1
+                            elif opt == "next" and page < count_page:
+                                page += 1
+                            elif opt == "back":
+                                break
+                            elif 1 <= int(opt) <= 5:
+                                news_id = result[int(opt) - 1][0]
+                                result = __news_service.search_by_id(news_id)
+                                title = result[0]
+                                type = result[1]
+                                if_top = result[2]
+                                print("\n\tOriginal title: %s" % title)
+                                new_title = input("\n\tNew title: ")
+                                print("\n\tOriginal type: %s" % type)
+                                result = __type_service.search_list()
+                                for index in range(len(result)):
+                                    type = result[index]
+                                    print(Fore.LIGHTBLUE_EX, "\n\t%d.%s" % (index + 1, type[1]))
+                                print(Style.RESET_ALL)
+                                opt = input("\n\tNew type: ")
+                                new_type = result[int(opt) - 1][0]
+                                content_id = 100
+                                print("\n\tOriginal top level: %s" % if_top)
+                                new_if_top = input("\n\tNew top level(0-5): ")
+                                is_commit = input("\n\tCommit? (y/n): ")
+                                if is_commit == "Y" or is_commit == "y":
+                                    __news_service.edit_news(news_id, new_title, new_type, content_id, new_if_top)
+                                    print("\n\tEdit Successfully (Wait 1s)")
+                                    time.sleep(1)
+                    elif opt == "3":
+                        break
+                    elif opt == "4":
+                        sys.exit(0)
                 elif role == "Admin":
                     print(Fore.LIGHTGREEN_EX, "\n\t1. Manage news")
                     print(Fore.LIGHTGREEN_EX, "\n\t2. Manage users")
@@ -98,6 +150,16 @@ while True:
                                     elif 1 <= int(opt) <= 5:
                                         news_id = result[int(opt)-1][0]
                                         __news_service.review_news(news_id)
+                                        result = __news_service.search_cache(news_id)
+                                        title = result[0]
+                                        username = result[1]
+                                        type = result[2]
+                                        content_id = result[3]
+                                        content = "100"
+                                        if_top = result[4]
+                                        create_time = str(result[5])
+                                        __news_service.insert(news_id, title, username, type,
+                                                                  content, if_top, create_time)
                             elif opt == "2":
                                 page = 1
                                 while True:
@@ -125,6 +187,7 @@ while True:
                                     elif 1 <= int(opt) <= 5:
                                         news_id = result[int(opt) - 1][0]
                                         __news_service.delete_news(news_id)
+                                        __news_service.delete(news_id)
                             elif opt == "3":
                                 break
                     elif opt == "2":
