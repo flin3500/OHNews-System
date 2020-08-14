@@ -160,5 +160,18 @@ class NewsDao:
             cursor.close()
             conn.close()
 
+    def search_content_id(self,id):
+        try:
+            conn = pool.connection()
+            cursor = conn.cursor()
+            sql = "SELECT content_id FROM news " \
+                  "WHERE id=%s;"
+            cursor.execute(sql, (id,))
+            content_id = cursor.fetchone()[0]
+            cursor.close()
+            conn.close()
+            return content_id
+        except Exception as e:
+            print(e)
 
 

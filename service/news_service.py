@@ -8,7 +8,6 @@ class NewsService:
     __redis_news_dao = RedisNewsDao()
     __mongo_news_dao = MongoNewsDao()
 
-
     def search_unreview_list(self, page):
         result = self.__news_dao.search_unreview_list(page)
         return result
@@ -29,7 +28,9 @@ class NewsService:
         return count_page
 
     def delete_news(self, id):
+        content_id = self.__news_dao.search_content_id(id)
         self.__news_dao.delete_news(id)
+        self.__mongo_news_dao.delete_by_id(content_id)
 
     def add_news(self, title, editor_id, type_id, content, if_top):
         self.__mongo_news_dao.insert(title, content)
@@ -50,7 +51,12 @@ class NewsService:
         result = self.__news_dao.search_by_id(id)
         return result
 
-    def edit_news(self, id, title, type_id, content_id, if_top):
+    def edit_news(self, id, title, type_id, content, if_top):
+        content_id = self.__news_dao.search_content_id(id)
+        self.__mongo_news_dao.update(content_id, title, content)
         self.__news_dao.edit_news(id, title, type_id, content_id, if_top)
         self.delete(id)
 
+    def search_content_by_id(self, id):
+        content = self.__mongo_news_dao.search_content_by_id(id)
+        return content
