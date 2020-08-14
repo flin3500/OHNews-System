@@ -150,7 +150,7 @@ class NewsDao:
             cursor = conn.cursor()
             sql = "UPDATE news SET title=%s, type_id=%s,content_id=%s," \
                   "if_top=%s, status=%s, update_time=NOW() WHERE id=%s;"
-            cursor.execute(sql, (title, type_id, content_id, if_top,"Reviewing", id))
+            cursor.execute(sql, (title, type_id, content_id, if_top, "Reviewing", id))
         except Exception as e:
             conn.rollback()
             print(e)

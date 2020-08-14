@@ -50,11 +50,16 @@ while True:
                         print(Style.RESET_ALL)
                         opt = input("\n\tInput the type number: ")
                         type_id = result[int(opt) - 1][0]
-                        content_id = 100
+                        path_head = os.path.expanduser('~/Desktop/')
+                        path = input("\n\tFile path: ")
+                        path = path_head + path
+                        file = open(path, "r")
+                        content = file.read()
+                        file.close()
                         if_top = input("\n\tTop level(0-5): ")
                         is_commit = input("\n\tCommit? (y/n): ")
                         if is_commit == "Y" or is_commit == "y":
-                            __news_service.add_news(title, editor_id, type_id, content_id, if_top)
+                            __news_service.add_news(title, editor_id, type_id, content, if_top)
                             print("\n\tAdd Successfully (Wait 1s)")
                             time.sleep(1)
                     elif opt == "2":
