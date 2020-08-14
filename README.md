@@ -11,7 +11,7 @@ This is OHNews System written in python, and use Mysql, MongoDB, Redis as databa
 
 4. BACKEND: Python 3.8.5  **I wll use pyenv to check if other version is also fine**
 
-5. Database: Mysql v8.0.21, Redis, MongoDB
+5. Database: Mysql v8.0.21, Redis v3.2, MongoDB v4.4
 
 6. The module you need
 
@@ -32,7 +32,7 @@ This is OHNews System written in python, and use Mysql, MongoDB, Redis as databa
    # emmm, google that and do the things above :)
    ```
 
-7. dwsdsa
+7. 
 
 # Difficulty 😭
 
@@ -101,9 +101,5 @@ This is OHNews System written in python, and use Mysql, MongoDB, Redis as databa
 
       7. Now it is ok
 
-2. Sqlmode
-
-3. xxaSA
-
-4. Asdad
+2. 
 
